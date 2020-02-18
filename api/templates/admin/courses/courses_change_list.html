@@ -1,0 +1,55 @@
+{% extends 'admin/change_list.html' %}
+
+{% block object-tools %}
+
+<div align="center" method="POST">
+    <form id="bulk-update-form">
+        {% csrf_token %}
+        <h3>Update all courses with XML Project file:</h3>
+        <input type="file" accept=".xml" id="file-button" name="xmlfile">
+        <input id="xml-submit" type="submit" value="Update">
+    </form>
+    <br>
+</div>
+
+<br>
+
+<script>
+    const submitButton = document.querySelector("#xml-submit")
+    const message = document.querySelector("#message")
+
+    submitButton.addEventListener('click', function(e){
+        e.preventDefault()
+        const file = document.querySelector("#file-button").files
+        const formData = new FormData()
+        const button = document.querySelector("#xml-submit")
+
+        if (file[0]) {
+
+            formData.append('file', file[0])
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}')
+            button.disabled = true
+            fetch('http://localhost:9000/api/courses/',{
+                method: 'POST',
+                body: formData
+            }
+            ).then(response => {
+                
+                if (response.status != 200) {
+                    alert('Something went wrong! Please make sure a valid .xml file is chosen.')
+                } else {
+                    location.reload()
+                    alert('Training plan updated successfully!')
+                }
+            })
+        } else {
+
+            alert('Something went wrong! Please make sure a valid .xml file is chosen.')
+        }
+
+    })
+
+
+</script>
+{{block.super}}
+{% endblock object-tools %}

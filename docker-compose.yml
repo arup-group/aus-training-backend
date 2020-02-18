@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    command: python3 manage.py runserver 9000
+    volumes:
+      - .:/code
+    ports: 
+      - "80:80"
