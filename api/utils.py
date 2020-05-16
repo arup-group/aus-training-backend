@@ -70,7 +70,7 @@ def top_sort(doc):
         start = datetime.strptime(start, '%Y-%m-%d %H:%M:%S')
         end = datetime.strptime(end, '%Y-%m-%d %H:%M:%S')
 
-        # # get level to determine child courses
+        # get level to determine child courses
         current_level = int(task['OutlineLevel'])
 
         if current_level not in memo.keys():
